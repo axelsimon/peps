@@ -4,7 +4,8 @@ Version: $Revision$
 Last-Modified: $Date$
 Author: Trishank Karthik Kuppusamy <karthik@trishank.com>,
         Vladimir Diaz <vladimir.diaz@nyu.edu>,
-        Justin Cappos <jcappos@nyu.edu>, Marina Moore <mm9693@nyu.edu>
+        Justin Cappos <jcappos@nyu.edu>, Marina Moore <mm9693@nyu.edu>,
+	axel simon <axel@redhat.com>
 BDFL-Delegate: Donald Stufft <donald@stufft.io>
 Discussions-To: Packaging category on Python Discourse <https://discuss.python.org/c/packaging>
 Status: Draft
@@ -29,8 +30,7 @@ distributions. The maximum security model, described in this PEP, retains the
 benefits of PEP 458 (e.g., immediate availability of distributions that are
 uploaded to PyPI), but additionally ensures that end-users are not at risk of
 installing forged software if PyPI is compromised, so long as developer
-signatures are verified. This PEP further advocates for high-priority and newly
-created packages to be signed for by developers.
+signatures are verified.
 
 This PEP requires some changes to the PyPI infrastructure, and some suggested
 changes for developers who wish to participate in end-to-end signing. These
@@ -40,7 +40,10 @@ change in the upload workflow for developers who take advantage of end-to-end
 signing. All of these changes are described in detail later in this PEP. Package
 managers who wish to take advantage of end-to-end signing do not need to do any
 additional work beyond what is required to consume metadata described in PEP
-458.
+458. This PEP further advocates for high-priority and newly created packages to
+be signed for by developers (rather than all packages or making signing
+optional).
+
 
 This PEP discusses the changes made to PEP 458 but excludes its informational
 elements to primarily focus on the maximum security model. For example, an
@@ -104,7 +107,7 @@ Threat Model
 
 The threat model assumes the following:
 
-* Developer keys are either offlin or eephemeral. Offline keys are safe and
+* Developer keys are either offline or ephemeral. Offline keys are safe and
   securely stored. Ephemeral keys only exist for the time needed to sign and
   safely disposed of immediately after.
 
@@ -270,6 +273,12 @@ that developers upload to PyPI includes information like the distribution's file
 size and hash, which package managers use to verify distributions that are
 downloaded.
 
+Two naive approaches regarding end-to-end signing exist: require signing of any
+and all new distribution uploads, or make signing entirely voluntary, making it
+likely to render signing an unused feature.
+This PEP advocates for a third approach: require high-priority and newly created
+packages to be signed for by developers.
+
 The practical implications of end-to-end signing is the extra administrative
 work needed to delegate trust to a project, and the signed metadata that
 developers MUST upload to PyPI along with the distribution. Specifically, PyPI
@@ -367,7 +376,7 @@ inadequate due to the great number of potentially unsigned dependencies each
 distribution may have. If any one of these dependencies is unsigned, it negates
 any benefit the project gains from signing its own distribution (i.e.,
 attackers would only need to compromise one of the unsigned dependencies to
-attack end-users). Simultaneousl, requiring developers to manually sign
+attack end-users). Simultaneously, requiring developers to manually sign
 distributions and manage keys is expected to render key signing an unused
 feature.
 
@@ -418,8 +427,6 @@ project`__.
 
 __ https://pypi.python.org/pypi?:action=register_form
 
-Step 2 generates an encrypted key file (private), uploads an Ed25519 public key
-to PyPI
 Step 2 registers an OIDC identity to PyPI, generates an ephemeral key and signs the
 TUF metadata that is generated for the distribution.
 
