@@ -162,7 +162,7 @@ Terms used in this PEP are defined as follows:
 * Roles: Roles in TUF encompass the set of actions a party is authorized to
   perform, including what metadata they may sign and which packages they are
   responsible for. There is one *root* role in PyPI. The *root* role delegates
-  responsibilities to multple roles, directly or indirectly. The term "top-level
+  responsibilities to multiple roles, directly or indirectly. The term "top-level
   role" refers to the *root* role and any role delegated by the *root* role.
   Each role has a *single* metadata file that it is trusted to provide.
 
