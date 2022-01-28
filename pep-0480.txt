@@ -284,7 +284,7 @@ work needed to delegate trust to a project, and the signed metadata that
 developers MUST upload to PyPI along with the distribution. Specifically, PyPI
 is expected to periodically sign metadata with an offline key by adding
 projects to the *claimed* metadata file and signing it. In contrast, in the
-minimum ssecurity model, projects are only ever signed with an online key.
+minimum security model, projects are only ever signed with an online key.
 End-to-end signing does require manual intervention to delegate trust (i.e., to
 sign metadata with an offline key), but this is a one-time cost and projects
 have stronger protections against PyPI compromises thereafter.
